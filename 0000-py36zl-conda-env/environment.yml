@@ -1,0 +1,22 @@
+name: py36zl
+channels:
+  - defaults
+  - conda-forge
+dependencies:
+  - python=3.6
+  - pip
+  - jupyter
+  - cvxopt
+  - matplotlib
+  - seaborn
+  - zipline
+  - scikit-learn
+  - dill
+  - xlrd
+  - pip:
+    - requests
+    - xlsxwriter
+    - tqdm
+    - watermark
+    - pyfolio
+    - numba
