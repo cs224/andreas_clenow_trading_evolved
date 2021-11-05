@@ -5,6 +5,8 @@ channels:
 dependencies:
   - python=3.6
   - pip
+  #- pandas=0.22.0
+  - pandas<1.0
   - jupyter
   - cvxopt
   - matplotlib
@@ -12,11 +14,15 @@ dependencies:
   - zipline
   - scikit-learn
   - dill
-  - xlrd
+  - xlrd<2.0
+  #- openpyxl
+  #- xlwt
   - pip:
+    - pandas<1.0
     - requests
     - xlsxwriter
     - tqdm
     - watermark
     - pyfolio
     - numba
+    #- xlsxwriter
