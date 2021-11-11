@@ -5,8 +5,7 @@ channels:
 dependencies:
   - python=3.6
   - pip
-  #- pandas=0.22.0
-  - pandas<1.0
+  - pandas=0.22.0
   - jupyter
   - cvxopt
   - matplotlib
@@ -18,11 +17,12 @@ dependencies:
   #- openpyxl
   #- xlwt
   - pip:
-    - pandas<1.0
+    - pandas==0.22.0
     - requests
     - xlsxwriter
     - tqdm
     - watermark
     - pyfolio
     - numba
+    - importlib_resources
     #- xlsxwriter
