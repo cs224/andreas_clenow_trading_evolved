@@ -7,6 +7,8 @@ TAG_DATE=202111290853
 zipline-docker-base-image:
 	docker build -f dockerfile.base --build-arg HTTP_PROXY=${HTTP_PROXY} --build-arg HTTPS_PROXY=${HTTPS_PROXY} --build-arg http_proxy=${HTTP_PROXY} --build-arg https_proxy=${HTTPS_PROXY} --tag zipline-docker-base-image:${TAG_DATE} --tag zipline-docker-base-image:latest .
 
+# docker save -o zipline-docker-base-image.tar zipline-docker-base-image:latest
+
 zipline-norgate-volume-container:
 	docker run -it --rm -v $(shell readlink -f ../norgate_stock_data):/root/bundle:ro -v $(shell readlink -f ../norgate_stock_data/data):/root/bundle/data:ro --name NORGATE-DATA-VOLUME zipline-docker-base-image:latest
 
@@ -21,6 +23,9 @@ zipline-norgate-data-image1:
 zipline-norgate-data-image2:
 	docker build -f dockerfile.norgate2 --build-arg HTTP_PROXY=${HTTP_PROXY} --build-arg HTTPS_PROXY=${HTTPS_PROXY} --build-arg http_proxy=${HTTP_PROXY} --build-arg https_proxy=${HTTPS_PROXY} --tag zipline-norgate-data-image2:${TAG_DATE} --tag zipline-norgate-data-image2:latest $(shell readlink -f ../norgate_stock_data/data)
 #	DOCKER_BUILDKIT=1 docker buildx build -f dockerfile.norgate2 --build-arg HTTP_PROXY=${HTTP_PROXY} --build-arg HTTPS_PROXY=${HTTPS_PROXY} --build-arg http_proxy=${HTTP_PROXY} --build-arg https_proxy=${HTTPS_PROXY} --tag zipline-norgate-data-image2:${TAG_DATE} --tag zipline-norgate-data-image2:latest $(shell readlink -f ../norgate_stock_data/data)
+
+# docker save -o zipline-norgate-data-image2.tar zipline-norgate-data-image2:latest
+
 
 # jupyter notebook --no-browser --port=8880
 # change user
