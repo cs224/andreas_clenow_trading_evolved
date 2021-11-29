@@ -1,0 +1,29 @@
+FROM continuumio/miniconda3:4.10.3p0
+
+LABEL maintainer="cs224 <cs224@weisser-zwerg.dev>"
+
+USER root
+RUN ln -s /bin/gzip /usr/bin/gzip
+RUN ln -s /bin/tar /bin/gtar
+
+RUN conda update -y conda --no-pin
+RUN conda install mamba -n base -c conda-forge
+RUN mamba install pip -n base
+RUN pip install --upgrade pip
+
+RUN conda init bash
+
+COPY env-create-docker.sh $HOME/
+COPY environment.yml $HOME/
+
+RUN /bin/bash ./env-create-docker.sh
+
+RUN echo "conda activate py36zl" >> ~/.bashrc
+
+# Make RUN commands use the new environment:
+# SHELL ["conda", "run", "--no-capture-output", "-n", "py36zl", "/bin/bash", "-c"]
+
+# EXPOSE 5003
+# The code to run when container is started: /bin/bash
+# ENTRYPOINT ["conda", "run", "--no-capture-output", "-n", "py36zl", "python3", "src/server.py"]
+# ENTRYPOINT ["conda", "run", "--no-capture-output", "-n", "py36zl", "/bin/bash", "-c"]

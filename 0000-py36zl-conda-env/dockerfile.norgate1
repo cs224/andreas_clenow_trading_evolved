@@ -1,0 +1,4 @@
+FROM zipline-docker-base-image:latest
+
+COPY install_norgate_stock_data.sh /root/bundle/
+COPY norgate_stock_data.py /root/bundle/
