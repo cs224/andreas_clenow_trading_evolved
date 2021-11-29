@@ -16,7 +16,15 @@ zipline-norgate-volume-container2:
 # https://github.com/moby/buildkit/issues/818 Symbolic links as source in RUN --mount=type=bind doesn't mount
 # https://github.com/moby/moby/issues/37129   Proposal: add support for multiple (named) build-contexts
 zipline-norgate-data-image1:
-		docker build -f dockerfile.norgate1 --build-arg HTTP_PROXY=${HTTP_PROXY} --build-arg HTTPS_PROXY=${HTTPS_PROXY} --build-arg http_proxy=${HTTP_PROXY} --build-arg https_proxy=${HTTPS_PROXY} --tag zipline-norgate-data-image1:${TAG_DATE} --tag zipline-norgate-data-image1:latest ../norgate_stock_data
+	docker build -f dockerfile.norgate1 --build-arg HTTP_PROXY=${HTTP_PROXY} --build-arg HTTPS_PROXY=${HTTPS_PROXY} --build-arg http_proxy=${HTTP_PROXY} --build-arg https_proxy=${HTTPS_PROXY} --tag zipline-norgate-data-image1:${TAG_DATE} --tag zipline-norgate-data-image1:latest ../norgate_stock_data
 
 zipline-norgate-data-image2:
-	DOCKER_BUILDKIT=1 docker buildx build -f dockerfile.norgate2 --build-arg HTTP_PROXY=${HTTP_PROXY} --build-arg HTTPS_PROXY=${HTTPS_PROXY} --build-arg http_proxy=${HTTP_PROXY} --build-arg https_proxy=${HTTPS_PROXY} --tag zipline-norgate-data-image2:${TAG_DATE} --tag zipline-norgate-data-image2:latest $(shell readlink -f ../norgate_stock_data/data)
+	docker build -f dockerfile.norgate2 --build-arg HTTP_PROXY=${HTTP_PROXY} --build-arg HTTPS_PROXY=${HTTPS_PROXY} --build-arg http_proxy=${HTTP_PROXY} --build-arg https_proxy=${HTTPS_PROXY} --tag zipline-norgate-data-image2:${TAG_DATE} --tag zipline-norgate-data-image2:latest $(shell readlink -f ../norgate_stock_data/data)
+#	DOCKER_BUILDKIT=1 docker buildx build -f dockerfile.norgate2 --build-arg HTTP_PROXY=${HTTP_PROXY} --build-arg HTTPS_PROXY=${HTTPS_PROXY} --build-arg http_proxy=${HTTP_PROXY} --build-arg https_proxy=${HTTPS_PROXY} --tag zipline-norgate-data-image2:${TAG_DATE} --tag zipline-norgate-data-image2:latest $(shell readlink -f ../norgate_stock_data/data)
+
+# jupyter notebook --no-browser --port=8880
+# change user
+# docker run -it --rm --net=host --uts=host --pid=host --user "`id -u`:`id -g`" -v `readlink -f .`:/root/local:ro -w /root/local zipline-norgate-data-image2:latest /bin/bash --login -c "jupyter notebook --no-browser --allow-root --NotebookApp.token='' --NotebookApp.password=''"
+# docker run -it --rm --net=host -v `readlink -f .`:/root/local -w /root/local zipline-norgate-data-image2:latest /bin/bash --login -c "jupyter notebook --no-browser --allow-root --NotebookApp.token='' --NotebookApp.password=''"
+zipline-norgate-data-container:
+	docker run -it --rm --net=host -v `readlink -f .`:/root/local:ro -w /root/local zipline-norgate-data-image2:latest /bin/bash --login -c "jupyter notebook --no-browser --allow-root --NotebookApp.token='' --NotebookApp.password=''"

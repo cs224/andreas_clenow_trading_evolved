@@ -6,6 +6,10 @@ USER root
 RUN ln -s /bin/gzip /usr/bin/gzip
 RUN ln -s /bin/tar /bin/gtar
 
+# RUN groupadd -r mincond && useradd --no-log-init -r -g mincond mincond
+# USER mincond
+# WORKDIR /home/mincond
+
 RUN conda update -y conda --no-pin
 RUN conda install mamba -n base -c conda-forge
 RUN mamba install pip -n base

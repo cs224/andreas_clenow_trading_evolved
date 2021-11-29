@@ -1,9 +1,16 @@
 # syntax=docker/dockerfile:1.3
 FROM zipline-norgate-data-image1:latest
 
+ADD * /root/bundle/data/
+
 SHELL ["conda", "run", "--no-capture-output", "-n", "py36zl", "/bin/bash", "-c"]
 WORKDIR "/root/bundle"
-RUN --mount=type=bind,source=/,target=/root/bundle/data zipline bundles
-RUN --mount=type=bind,source=/,target=/root/bundle/data /bin/bash ./install_norgate_stock_data.sh
-# RUN --mount=type=bind,source=/,target=/root/bundle/data zipline clean --bundle norgate_stock_data --before `date -d "+1 days" --iso-8601`
-RUN --mount=type=bind,source=/,target=/root/bundle/data zipline ingest --bundle norgate_stock_data
+
+RUN zipline bundles
+RUN ./install_norgate_stock_data.sh
+RUN zipline ingest --bundle norgate_stock_data
+
+# RUN --mount=type=bind,source=/,target=/root/bundle/data zipline bundles
+# RUN --mount=type=bind,source=/,target=/root/bundle/data /bin/bash ./install_norgate_stock_data.sh
+# # RUN --mount=type=bind,source=/,target=/root/bundle/data zipline clean --bundle norgate_stock_data --before `date -d "+1 days" --iso-8601`
+# RUN --mount=type=bind,source=/,target=/root/bundle/data zipline ingest --bundle norgate_stock_data
