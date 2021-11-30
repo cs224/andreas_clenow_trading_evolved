@@ -30,6 +30,7 @@ zipline-norgate-data-image2:
 # jupyter notebook --no-browser --port=8880
 # change user
 # docker run -it --rm --net=host --uts=host --pid=host --user "`id -u`:`id -g`" -v `readlink -f .`:/root/local:ro -w /root/local zipline-norgate-data-image2:latest /bin/bash --login -c "jupyter notebook --no-browser --allow-root --NotebookApp.token='' --NotebookApp.password=''"
+# docker run -it --rm --net=host -v `readlink -f .`:/root/local:ro -w /root/local --user "`id -u`:`id -g`" zipline-norgate-data-image2:latest /bin/bash -c "CONDA_BASE=$(conda info --base) source ${CONDA_BASE}/etc/profile.d/conda.sh && conda activate py36zl && jupyter notebook --no-browser --allow-root --NotebookApp.token='' --NotebookApp.password=''"
 # docker run -it --rm --net=host -v `readlink -f .`:/root/local -w /root/local zipline-norgate-data-image2:latest /bin/bash --login -c "jupyter notebook --no-browser --allow-root --NotebookApp.token='' --NotebookApp.password=''"
 zipline-norgate-data-container:
 	docker run -it --rm --net=host -v `readlink -f .`:/root/local:ro -w /root/local zipline-norgate-data-image2:latest /bin/bash --login -c "jupyter notebook --no-browser --allow-root --NotebookApp.token='' --NotebookApp.password=''"
